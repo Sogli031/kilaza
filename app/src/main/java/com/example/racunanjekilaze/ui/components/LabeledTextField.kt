@@ -1,7 +1,5 @@
 package com.example.racunanjekilaze.ui.components
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
@@ -40,49 +38,44 @@ fun LabeledTextField(
     imeAction: ImeAction = ImeAction.Next,
     onImeAction: () -> Unit = {}
 ) {
-    Column(
-        modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(6.dp)
-    ) {
-        Text(
-            text = label,
-            style = MaterialTheme.typography.labelMedium,
-            color = TextSecondary,
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis
-        )
-        OutlinedTextField(
-            value = value,
-            onValueChange = onValueChange,
-            placeholder = {
-                Text(
-                    text = placeholder,
-                    style = MaterialTheme.typography.bodyMedium,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
-                )
-            },
-            singleLine = true,
-            keyboardOptions = KeyboardOptions(
-                keyboardType = keyboardType,
-                imeAction = imeAction
-            ),
-            keyboardActions = KeyboardActions(
-                onNext = { onImeAction() },
-                onDone = { onImeAction() }
-            ),
-            isError = isError,
-            colors = fieldColors(isError = isError),
-            textStyle = MaterialTheme.typography.bodyLarge,
-            shape = RoundedCornerShape(14.dp),
-            modifier = Modifier
-                .fillMaxWidth()
-                .then(
-                    if (focusRequester != null) Modifier.focusRequester(focusRequester)
-                    else Modifier
-                )
-        )
-    }
+    OutlinedTextField(
+        value = value,
+        onValueChange = onValueChange,
+        label = {
+            Text(
+                text = label,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
+        },
+        placeholder = {
+            Text(
+                text = placeholder,
+                style = MaterialTheme.typography.bodyMedium,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
+        },
+        singleLine = true,
+        keyboardOptions = KeyboardOptions(
+            keyboardType = keyboardType,
+            imeAction = imeAction
+        ),
+        keyboardActions = KeyboardActions(
+            onNext = { onImeAction() },
+            onDone = { onImeAction() }
+        ),
+        isError = isError,
+        colors = fieldColors(isError = isError),
+        textStyle = MaterialTheme.typography.bodyLarge,
+        shape = RoundedCornerShape(12.dp),
+        modifier = modifier
+            .fillMaxWidth()
+            .then(
+                if (focusRequester != null) Modifier.focusRequester(focusRequester)
+                else Modifier
+            )
+    )
 }
 
 @Composable
@@ -95,6 +88,9 @@ fun fieldColors(isError: Boolean = false): TextFieldColors {
         focusedBorderColor = Accent,
         unfocusedBorderColor = BorderColor,
         cursorColor = Accent,
+        focusedLabelColor = Accent,
+        unfocusedLabelColor = TextSecondary,
+        errorLabelColor = ErrorColor,
         focusedPlaceholderColor = TextSecondary,
         unfocusedPlaceholderColor = TextSecondary,
         // Error boje

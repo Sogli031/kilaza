@@ -13,16 +13,31 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 private val AppColorScheme = darkColorScheme(
-    primary = Copper,
+    primary = Accent,
     onPrimary = Background,
-    secondary = Accent,
+    primaryContainer = CopperDark,
+    onPrimaryContainer = TextPrimary,
+    secondary = Copper,
     onSecondary = Background,
+    secondaryContainer = SurfaceElevated,
+    onSecondaryContainer = AccentSoft,
+    tertiary = ResultAccent,
+    onTertiary = Background,
+    tertiaryContainer = ResultGreen,
+    onTertiaryContainer = TextPrimary,
     background = Background,
+    onBackground = TextPrimary,
     surface = Surface,
-    surfaceVariant = SurfaceLight,
     onSurface = TextPrimary,
+    surfaceVariant = SurfaceLight,
     onSurfaceVariant = TextSecondary,
-    outline = BorderColor,
+    surfaceContainerLowest = Background,
+    surfaceContainerLow = Surface,
+    surfaceContainer = Surface,
+    surfaceContainerHigh = SurfaceLight,
+    surfaceContainerHighest = SurfaceElevated,
+    outline = GlassBorder,
+    outlineVariant = DividerColor,
     error = ErrorColor,
     onError = Background
 )
@@ -31,8 +46,8 @@ private val AppTypography = Typography(
     displayLarge = TextStyle(
         fontFamily = FontFamily.SansSerif,
         fontWeight = FontWeight.Bold,
-        fontSize = 56.sp,
-        lineHeight = 62.sp,
+        fontSize = 48.sp,
+        lineHeight = 54.sp,
         letterSpacing = (-1).sp
     ),
     headlineSmall = TextStyle(

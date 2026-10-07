@@ -71,4 +71,35 @@ class CalculatorScreenStateTest {
 
         assertThat(state.currentPreview).isNotNull()
     }
+
+    @Test
+    fun addCurrentToOrderStoresEntryAndSumsWeight() {
+        val state = CalculatorScreenState()
+        state.selectedMaterial = "Cu"
+        state.radialThickness = "150"
+        state.coreDiameter = "400"
+        state.thickness = "2"
+        state.width = "72"
+        state.coils = "2"
+
+        assertThat(state.addCurrentToOrder()).isTrue()
+        assertThat(state.addCurrentToOrder()).isTrue()
+
+        assertThat(state.orderEntries).hasSize(2)
+        assertThat(state.orderEntries.map { it.id }).containsExactly(1, 2).inOrder()
+        assertThat(state.totalCoils).isEqualTo(4)
+        assertThat(state.totalWeight).isWithin(0.001).of(668.808)
+
+        state.removeEntry(1)
+        assertThat(state.orderEntries).hasSize(1)
+        state.clearOrder()
+        assertThat(state.orderEntries).isEmpty()
+    }
+
+    @Test
+    fun addCurrentToOrderRejectsInvalidInput() {
+        val state = CalculatorScreenState()
+        assertThat(state.addCurrentToOrder()).isFalse()
+        assertThat(state.orderEntries).isEmpty()
+    }
 }

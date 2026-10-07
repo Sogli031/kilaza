@@ -12,7 +12,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -23,7 +22,8 @@ import com.example.racunanjekilaze.ui.components.AutoSizeText
 import com.example.racunanjekilaze.ui.components.ResponsiveInfoRow
 import com.example.racunanjekilaze.ui.theme.Accent
 import com.example.racunanjekilaze.ui.theme.LayoutTokens
-import com.example.racunanjekilaze.ui.theme.SurfaceElevated
+import com.example.racunanjekilaze.ui.theme.ResultAccent
+import com.example.racunanjekilaze.ui.theme.ResultGreen
 import com.example.racunanjekilaze.ui.theme.SuccessColor
 import com.example.racunanjekilaze.ui.theme.TextSecondary
 
@@ -41,7 +41,8 @@ fun TotalSection(
 
     AccentGlassCard(
         modifier = modifier,
-        bgColor = SurfaceElevated,
+        bgColor = ResultGreen,
+        borderColor = ResultAccent,
         cornerRadius = layout.cardRadius
     ) {
         val innerSpacing = if (layout.isCompact) 6.dp else 8.dp
@@ -56,9 +57,9 @@ fun TotalSection(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Column(modifier = Modifier.weight(0.6f)) {
+                Column(modifier = Modifier.weight(0.4f)) {
                     Text(
-                        text = "UKUPNA TEŽINA",
+                        text = "UKUPNA KILAŽA",
                         style = MaterialTheme.typography.labelMedium,
                         color = TextSecondary,
                         maxLines = 1,
@@ -74,11 +75,11 @@ fun TotalSection(
                 }
                 AutoSizeText(
                     text = totalWeightText,
-                    style = MaterialTheme.typography.titleLarge.copy(textAlign = TextAlign.End),
-                    color = Color.White,
-                    maxFontSize = MaterialTheme.typography.titleLarge.fontSize,
+                    style = MaterialTheme.typography.displayLarge.copy(textAlign = TextAlign.End),
+                    color = ResultAccent,
+                    maxFontSize = MaterialTheme.typography.displayLarge.fontSize,
                     maxLines = 1,
-                    modifier = Modifier.weight(0.4f)
+                    modifier = Modifier.weight(0.6f)
                 )
             }
             if (remainingInfo != null) {

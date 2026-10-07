@@ -15,42 +15,26 @@ import com.example.racunanjekilaze.ui.theme.TextSecondary
 
 @Composable
 fun MaterialGridSelector(
-    label: String,
     selectedMaterial: String,
     onMaterialSelected: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val materials = MATERIAL_DISPLAY_NAMES
-    val rows = materials.chunked(3)
-
     Column(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        Text(
-            text = label,
-            style = MaterialTheme.typography.labelMedium,
-            color = TextSecondary,
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis
-        )
-
-        Column(
-            verticalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            rows.forEach { row ->
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    row.forEach { material ->
-                        SelectableChip(
-                            text = material,
-                            isSelected = material == selectedMaterial,
-                            onClick = { onMaterialSelected(material) },
-                            modifier = Modifier.weight(1f)
-                        )
-                    }
+        MATERIAL_DISPLAY_NAMES.chunked(3).forEach { row ->
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                row.forEach { material ->
+                    SelectableChip(
+                        text = material,
+                        isSelected = material == selectedMaterial,
+                        onClick = { onMaterialSelected(material) },
+                        modifier = Modifier.weight(1f)
+                    )
                 }
             }
         }

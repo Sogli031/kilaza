@@ -103,16 +103,16 @@ fun layoutTokens(): LayoutTokens {
 
     return LayoutTokens(
         isCompact = isCompact,
-        screenPaddingHorizontal = if (isCompact) 14.dp else 18.dp,
-        screenPaddingVertical = if (isCompact) 10.dp else 14.dp,
-        sectionSpacing = if (isCompact) 10.dp else 14.dp,
-        fieldSpacing = if (isCompact) 10.dp else 12.dp,
-        cardPaddingHorizontal = if (isCompact) 14.dp else 18.dp,
-        cardPaddingVertical = if (isCompact) 14.dp else 18.dp,
+        screenPaddingHorizontal = if (isCompact) 12.dp else 16.dp,
+        screenPaddingVertical = if (isCompact) 8.dp else 10.dp,
+        sectionSpacing = if (isCompact) 8.dp else 12.dp,
+        fieldSpacing = if (isCompact) 8.dp else 10.dp,
+        cardPaddingHorizontal = if (isCompact) 12.dp else 14.dp,
+        cardPaddingVertical = if (isCompact) 12.dp else 14.dp,
         cardRadius = if (isCompact) 16.dp else 20.dp,
         itemPaddingHorizontal = if (isCompact) 10.dp else 12.dp,
         itemPaddingVertical = if (isCompact) 8.dp else 10.dp,
-        buttonMinHeight = if (isCompact) 52.dp else 58.dp,
+        buttonMinHeight = if (isCompact) 48.dp else 52.dp,
         buttonContentPadding = if (isCompact) {
             PaddingValues(horizontal = 12.dp, vertical = 8.dp)
         } else {

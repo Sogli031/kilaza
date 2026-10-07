@@ -34,7 +34,6 @@ import com.example.racunanjekilaze.ui.components.AutoSizeText
 import com.example.racunanjekilaze.ui.components.GlassCard
 import com.example.racunanjekilaze.ui.components.LabeledTextField
 import com.example.racunanjekilaze.ui.components.MaterialGridSelector
-import com.example.racunanjekilaze.ui.components.SectionHeader
 import com.example.racunanjekilaze.ui.components.SelectableChip
 import com.example.racunanjekilaze.ui.components.SoftDivider
 import com.example.racunanjekilaze.ui.components.StatTile
@@ -96,10 +95,7 @@ fun InputSection(
             ),
             verticalArrangement = Arrangement.spacedBy(layout.fieldSpacing)
         ) {
-            SectionHeader(title = "DIMENZIJE TRAKE")
-
             MaterialGridSelector(
-                label = "Materijal",
                 selectedMaterial = selectedMaterial,
                 onMaterialSelected = { material ->
                     onMaterialSelected(material)
@@ -107,63 +103,73 @@ fun InputSection(
                 }
             )
 
-            SoftDivider()
-
-            LabeledTextField(
-                label = "Poluprečnik trake (mm)",
-                value = radialThickness,
-                onValueChange = onRadialThicknessChange,
-                placeholder = "npr. 150",
-                isError = isRadialError,
-                keyboardType = KeyboardType.Decimal,
-                focusRequester = radialFocus,
-                imeAction = ImeAction.Next,
-                onImeAction = { coreFocus?.requestFocus() }
-            )
-
             CoreDiameterSelector(
                 coreDiameter = coreDiameter,
                 onCoreDiameterChange = onCoreDiameterChange,
                 isError = isCoreError,
                 focusRequester = coreFocus,
-                nextFocus = thicknessFocus
+                nextFocus = radialFocus
             )
 
-            LabeledTextField(
-                label = "Debljina materijala (mm)",
-                value = thickness,
-                onValueChange = onThicknessChange,
-                placeholder = "npr. 2",
-                isError = isThicknessError,
-                keyboardType = KeyboardType.Decimal,
-                focusRequester = thicknessFocus,
-                imeAction = ImeAction.Next,
-                onImeAction = { widthFocus?.requestFocus() }
-            )
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(layout.fieldSpacing)
+            ) {
+                LabeledTextField(
+                    label = "Poluprečnik (mm)",
+                    value = radialThickness,
+                    onValueChange = onRadialThicknessChange,
+                    placeholder = "150",
+                    isError = isRadialError,
+                    keyboardType = KeyboardType.Decimal,
+                    focusRequester = radialFocus,
+                    imeAction = ImeAction.Next,
+                    onImeAction = { thicknessFocus?.requestFocus() },
+                    modifier = Modifier.weight(1f)
+                )
+                LabeledTextField(
+                    label = "Debljina (mm)",
+                    value = thickness,
+                    onValueChange = onThicknessChange,
+                    placeholder = "2",
+                    isError = isThicknessError,
+                    keyboardType = KeyboardType.Decimal,
+                    focusRequester = thicknessFocus,
+                    imeAction = ImeAction.Next,
+                    onImeAction = { widthFocus?.requestFocus() },
+                    modifier = Modifier.weight(1f)
+                )
+            }
 
-            LabeledTextField(
-                label = "Širina trake (mm)",
-                value = width,
-                onValueChange = onWidthChange,
-                placeholder = "npr. 72",
-                isError = isWidthError,
-                keyboardType = KeyboardType.Decimal,
-                focusRequester = widthFocus,
-                imeAction = ImeAction.Next,
-                onImeAction = { coilsFocus?.requestFocus() }
-            )
-
-            LabeledTextField(
-                label = "Broj traka",
-                value = coils,
-                onValueChange = onCoilsChange,
-                placeholder = "prazno = 1",
-                isError = isCoilsError,
-                keyboardType = KeyboardType.Number,
-                focusRequester = coilsFocus,
-                imeAction = ImeAction.Done,
-                onImeAction = onCalculate
-            )
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(layout.fieldSpacing)
+            ) {
+                LabeledTextField(
+                    label = "Širina (mm)",
+                    value = width,
+                    onValueChange = onWidthChange,
+                    placeholder = "72",
+                    isError = isWidthError,
+                    keyboardType = KeyboardType.Decimal,
+                    focusRequester = widthFocus,
+                    imeAction = ImeAction.Next,
+                    onImeAction = { coilsFocus?.requestFocus() },
+                    modifier = Modifier.weight(1f)
+                )
+                LabeledTextField(
+                    label = "Broj traka",
+                    value = coils,
+                    onValueChange = onCoilsChange,
+                    placeholder = "1",
+                    isError = isCoilsError,
+                    keyboardType = KeyboardType.Number,
+                    focusRequester = coilsFocus,
+                    imeAction = ImeAction.Done,
+                    onImeAction = onCalculate,
+                    modifier = Modifier.weight(1f)
+                )
+            }
         }
     }
 }
@@ -181,7 +187,7 @@ private fun CoreDiameterSelector(
     val customValue = if (selectedPreset == null) coreDiameter else ""
 
     Column(
-        verticalArrangement = Arrangement.spacedBy(8.dp)
+        verticalArrangement = Arrangement.spacedBy(4.dp)
     ) {
         Text(
             text = "Unutrašnji prečnik (mm)",
@@ -228,7 +234,7 @@ private fun CoreDiameterSelector(
                 ),
                 isError = isError,
                 colors = fieldColors(isError = isError),
-                shape = RoundedCornerShape(14.dp),
+                shape = RoundedCornerShape(12.dp),
                 modifier = Modifier
                     .weight(1f)
                     .heightIn(min = 56.dp)

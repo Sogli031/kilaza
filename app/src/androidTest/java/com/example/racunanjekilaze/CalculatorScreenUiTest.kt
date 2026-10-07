@@ -1,9 +1,7 @@
 package com.example.racunanjekilaze
 
-import androidx.compose.ui.test.assertCountEquals
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
-import androidx.compose.ui.test.onAllNodesWithText
 import androidx.compose.ui.test.onNodeWithText
 import org.junit.Rule
 import org.junit.Test
@@ -21,10 +19,8 @@ class CalculatorScreenUiTest {
     }
 
     @Test
-    fun orderWorkflowIsNotShown() {
-        composeRule.onAllNodesWithText("Dodaj stavku").assertCountEquals(0)
-        composeRule.onAllNodesWithText("Novi nalog").assertCountEquals(0)
-        composeRule.onAllNodesWithText("Nalog je prazan. Unesi dimenzije i dodaj prvu stavku.")
-            .assertCountEquals(0)
+    fun savedStripsTabIsShown() {
+        composeRule.onNodeWithText("KALKULATOR").assertIsDisplayed()
+        composeRule.onNodeWithText("TRAKE").assertIsDisplayed()
     }
 }

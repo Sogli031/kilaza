@@ -1,6 +1,12 @@
 package com.example.racunanjekilaze.ui.screens
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.snapshotFlow
+import androidx.compose.ui.platform.LocalContext
+import com.example.racunanjekilaze.data.loadOrder
+import com.example.racunanjekilaze.data.saveOrder
+import kotlinx.coroutines.flow.drop
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -61,7 +67,7 @@ class CalculatorScreenState(
     val totalCoilsText by derivedStateOf { "$totalCoils ${getTrakaFormNominative(totalCoils)}" }
     val targetWeightValue by derivedStateOf { parseOptionalDouble(targetWeight) }
     val remainingWeight by derivedStateOf { targetWeightValue?.let { it - totalWeight } }
-    val currentPreview by derivedStateOf {
+    private val currentCalculation by derivedStateOf {
         runCatching {
             val radial = parsePositiveDouble(radialThickness, "Poluprečnik trake")
             val core = parsePositiveDouble(coreDiameter, "Unutrašnji prečnik")
@@ -76,8 +82,33 @@ class CalculatorScreenState(
                 widthMm = widthValue
             )
 
-            computeFullResult(dimensions, material, coilCount)
+            Triple(dimensions, material, computeFullResult(dimensions, material, coilCount))
         }.getOrNull()
+    }
+    val currentPreview: CalculationResult? get() = currentCalculation?.third
+
+    /** Dodaje trenutno izračunatu traku u nalog; vraća false ako unos nije ispravan ili je nalog pun. */
+    fun addCurrentToOrder(): Boolean {
+        val (dimensions, material, result) = currentCalculation ?: return false
+        if (orderEntries.size >= MAX_ENTRIES) return false
+        orderEntries.add(
+            OrderEntry(
+                id = nextEntryId++,
+                dimensions = dimensions,
+                material = material,
+                coilCount = result.coilCount,
+                result = result
+            )
+        )
+        return true
+    }
+
+    fun removeEntry(id: Int) {
+        orderEntries.removeAll { it.id == id }
+    }
+
+    fun clearOrder() {
+        orderEntries.clear()
     }
 
     // Maksimalan broj stavki
@@ -174,7 +205,19 @@ class CalculatorScreenState(
 
 @Composable
 fun rememberCalculatorScreenState(): CalculatorScreenState {
-    return rememberSaveable(saver = CalculatorScreenState.Saver) {
-        CalculatorScreenState()
+    val context = LocalContext.current
+    val state = rememberSaveable(saver = CalculatorScreenState.Saver) {
+        val saved = loadOrder(context)
+        CalculatorScreenState(
+            initialNextEntryId = (saved.maxOfOrNull { it.id } ?: 0) + 1,
+            initialOrderEntries = saved
+        )
     }
+    // Nalog se pamti i posle zatvaranja aplikacije.
+    LaunchedEffect(state) {
+        snapshotFlow { state.orderEntries.toList() }
+            .drop(1)
+            .collect { saveOrder(context, it) }
+    }
+    return state
 }

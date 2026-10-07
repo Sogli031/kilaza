@@ -6,14 +6,15 @@ import org.junit.Test
 
 class CalculatorScreenSimplificationSourceTest {
     @Test
-    fun calculatorScreenDoesNotRenderOrderWorkflow() {
+    fun calculatorScreenHasCalculatorAndSavedStripsTabs() {
         val screen = readSource("src/main/java/com/example/racunanjekilaze/ui/screens/CalculatorScreen.kt")
 
-        assertThat(screen).doesNotContain("OrderListSection(")
-        assertThat(screen).doesNotContain("TotalSection(")
+        assertThat(screen).contains("PrimaryTabRow(")
+        assertThat(screen).contains("\"KALKULATOR\"")
+        assertThat(screen).contains("\"TRAKE\"")
+        assertThat(screen).contains("\"DODAJ U TRAKE\"")
+        assertThat(screen).contains("OrderScreen(")
         assertThat(screen).doesNotContain("AlertDialog")
-        assertThat(screen).doesNotContain("\"Dodaj stavku\"")
-        assertThat(screen).doesNotContain("\"Novi nalog\"")
     }
 
     @Test
